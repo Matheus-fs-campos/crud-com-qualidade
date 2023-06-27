@@ -1,1 +1,15 @@
-Hello WORLD!!!!!!
+{
+  "todos": [
+    {
+      "date": "2023-06-26T23:16:00.496Z",
+      "content": "primeira TODO",
+      "done": false
+    },
+    {
+      "date": "2023-06-26T23:16:00.499Z",
+      "content": "segunda TODO",
+      "done": false
+    }
+  ],
+  "dogs": []
+}
