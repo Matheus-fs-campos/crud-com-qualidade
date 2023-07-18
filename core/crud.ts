@@ -1,9 +1,11 @@
-import fs from "fs"; //ES6
+import fs from "fs"; //ES6 - ECMAScript 6 ou ES2015, é simplesmente a mais nova versão do JavaScript.
 import { v4 as uuid } from 'uuid';
 //const fs = require("fs"); //lib do node
 const DB_FILE_PATH = "./core/db";
 
 console.log("[crud]");
+
+type UUID = string;
 
 interface Todo{
     id: string;
@@ -28,7 +30,7 @@ function create(content: string): Todo{
     //precisa salvar o content no sistema
     fs.writeFileSync(DB_FILE_PATH, JSON.stringify({
         todos,
-        dogs: [],
+        dogs: ["toto"],
     }, null, 2)); //replace null e espaçamento 2
     return todo;
 }
@@ -42,7 +44,7 @@ function read(): Array<Todo>{
     return db.todos;
 }
 
-function update(id: string, partialTodo: Partial<Todo>){
+function update(id: UUID, partialTodo: Partial<Todo>){
     let updatadedTodo;
     const todos = read();
     todos.forEach((currentTodo) => {
@@ -62,10 +64,25 @@ function update(id: string, partialTodo: Partial<Todo>){
     return updatadedTodo;
 }
 
-function updateContentById(id: string, content: string): Todo{
+function updateContentById(id: UUID, content: string): Todo{
     return update(id, {
         content,
     });
+}
+
+function deleteById(id: UUID){
+    const todos = read();
+
+    const todosWithoutOne = todos.filter((todo)=> {
+        if(id === todo.id){
+            return false;
+        }
+        return true;
+    });
+
+    fs.writeFileSync(DB_FILE_PATH, JSON.stringify({
+        todos: todosWithoutOne, //todos recebendo todosWithoutOne
+    }, null, 2));
 }
 
 function CLEAR_DB(){
@@ -76,15 +93,17 @@ function CLEAR_DB(){
 
 CLEAR_DB();
 
-create("primeira TODO");
-create("segunda TODO1");
-const terceiraToDo = create("terceira TODO1");
+const firstToDo = create("primeira TODO");
+const secondTodo = create("segunda TODO1");
+const thirdToDo = create("terceira TODO1");
+
+deleteById(secondTodo.id);
 
 //update(terceiraToDo.id, {
 //    content: "Atualizada",
 //    done: true
 //});// update(dequem, oque)
 
-updateContentById(terceiraToDo.id, "Atualizada");
+updateContentById(thirdToDo.id, "Atualizada");
 console.log(read());
 
