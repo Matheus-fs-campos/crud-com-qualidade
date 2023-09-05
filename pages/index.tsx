@@ -1,9 +1,11 @@
 import React from "react";
 import { GlobalStyles } from "@ui/theme/GlobalStyles";
-import { todoController } from "@ui/controller/todos";
+import { todoController } from "@ui/controller/todo";
 
 // const bg = "https://mariosouto.com/cursos/crudcomqualidade/bg";
 const bg = "/bg.jpeg"; // inside public folder
+
+//let todos = [];
 
 interface HomeTodo {
     id: string;
@@ -13,9 +15,10 @@ interface HomeTodo {
 function HomePage() {
     const [todos, setTodos] = React.useState<HomeTodo[]>([]);
 
-    // Load infos onload
+    //carrega informações onload
     React.useEffect(() => {
         todoController.get().then((todos) => {
+            //console.log(todos);
             setTodos(todos);
         });
     }, []);
@@ -76,7 +79,6 @@ function HomePage() {
                                 </tr>
                             );
                         })}
-
                         {/* <tr>
               <td colSpan={4} align="center" style={{ textAlign: "center" }}>
                 Carregando...
