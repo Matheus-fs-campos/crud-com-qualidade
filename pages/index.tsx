@@ -13,11 +13,12 @@ interface HomeTodo {
 }
 
 function HomePage() {
+    const [page, setPage] = React.useState(1);
     const [todos, setTodos] = React.useState<HomeTodo[]>([]);
 
     //carrega informações onload
     React.useEffect(() => {
-        todoController.get().then((todos) => {
+        todoController.get({ page }).then(({ todos }) => {
             //console.log(todos);
             setTodos(todos);
         });
@@ -91,22 +92,29 @@ function HomePage() {
               </td>
             </tr> */}
 
-                        {/* <tr>
-              <td colSpan={4} align="center" style={{ textAlign: "center" }}>
-                <button data-type="load-more">
-                  Carregar mais{" "}
-                  <span
-                    style={{
-                      display: "inline-block",
-                      marginLeft: "4px",
-                      fontSize: "1.2em",
-                    }}
-                  >
-                    ↓
-                  </span>
-                </button>
-              </td>
-            </tr> */}
+                        <tr>
+                            <td
+                                colSpan={4}
+                                align="center"
+                                style={{ textAlign: "center" }}
+                            >
+                                <button
+                                    data-type="load-more"
+                                    onClick={() => setPage(page + 1)}
+                                >
+                                    Página {page}, Carregar mais{" "}
+                                    <span
+                                        style={{
+                                            display: "inline-block",
+                                            marginLeft: "4px",
+                                            fontSize: "1.2em",
+                                        }}
+                                    >
+                                        ↓
+                                    </span>
+                                </button>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </section>
